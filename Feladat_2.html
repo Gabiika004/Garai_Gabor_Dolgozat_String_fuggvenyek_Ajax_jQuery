@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. feladat</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 sm text-center">  
+                <h1 class="mb-6">2. Feladat</h1>
+                <section class="mt-6 ">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th colspan="2"><h4>Adjon meg bármilyen szöveget és a képernyőn 
+                                                látható gombokkal alakítsa kedve szerint!</h4></th>
+                            </tr>
+                            <tr>
+                                <th><h4 class="text-center">Írjon ide bármit!</h4 class="text-center"></th>
+                                <th><h4 class="text-center">Ide én írok!</h4 class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th ><input type="text" id="input" class="form-control" aria-label="Large" onblur="$(this).css('color', 'black')" onfocus="$(this).css('color', 'green')"></th>
+                                <th ><p id="error"></p></th>
+                            </tr>
+                        </tbody>    
+                  
+                    </table>
+                 </section>       
+            </div>
+                
+            <div class="col-12 text-center">    
+                <button class="btn btn-success col-12 col-sm-12 col-md-3 col-lg-2 col-xl-2 mb-2" id="upper" type="button">Nagybetűs</button>
+                <button class="btn btn-success col-12 col-sm-12 col-md-3 col-lg-2 col-xl-2 mb-2" id="back" type="button">Visszafelé</button>
+                <button class="btn btn-success col-12 col-sm-12 col-md-3 col-lg-2 col-xl-2 mb-2" id="words" type="button">Szavak</button>
+                <button class="btn btn-success col-12 col-sm-12 col-md-3 col-lg-2 col-xl-2 mb-2" id="length" type="button">Hossza</button>
+                <button class="btn btn-success col-12 col-sm-12 col-md-3 col-lg-2 col-xl-2 mb-2" id="noSpace" type="button">Szóköz nélkül</button>
+            </div>
+
+    
+            <div class="col-12 text-center mt-5">
+                <span><p style="font-size: 50px;" id="output">Itt fog megjelenni a megváltozott szöveg!</p></span>
+              
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(function() {     
+            
+            $('#upper').click(Upper);
+            $('#back').click(Back);
+            $('#words').click(Words);
+            $('#length').click(Length);
+            $('#noSpace').click(NoSpace);
+            
+        });
+
+        function Upper(){
+            
+            
+            if($('#input').val()==""){
+                $('#error').html("Nem írt be semmit!")
+                $('#output').html("");
+            }
+            else if($('#input').val().search(/[^a-zA-Z]+/) == false){
+                $('#error').html("Csak számra ez nem vonatkozik!")
+                $('#output').html("");
+            }
+            else{
+                $('#error').html("");
+                $('#output').html($('#input').val().toUpperCase());
+            }
+        }
+
+        function Back(){
+           
+            if($('#input').val()==""){
+                $('#error').html("Nem írt be semmit!")
+                $('#output').html("");
+            }
+            else{
+                $('#error').html("");
+                let szavak = $('#input').val().trim().split(" ").reverse();;
+                let betuk =[];
+                szavak.forEach(element => {
+                    let szo = element.split("").reverse().join("");
+                    betuk.push(szo)
+                });
+                $('#output').html(betuk.join(" "));
+            }
+        }
+
+        function Words(){
+            
+            if($('#input').val()==""){
+                $('#error').html("Nem írt be semmit!")
+                $('#output').html("");
+            }
+            else{
+                $('#error').html("");
+                let szavak = $('#input').val().trim().split(" ");
+                let olStart = " <ul>\n";
+                let olEnd = " </ul>\n";
+                let html_lista = "";
+                szavak.forEach(element => {
+                    if(element != ""){
+                        html_lista+="<li> " + element + " </li>\n";
+                    }
+                });
+            
+                $('#output').html(olStart + html_lista + olEnd);
+                console.log(olStart + html_lista + olEnd)
+                }
+        }
+
+        function Length(){
+
+            if($('#input').val()==""){
+                $('#error').html("Nem írt be semmit!")
+                $('#output').html("");
+            }
+            else{
+                $('#error').html("");
+                $('#output').html($('#input').val().length);
+            }
+        }
+
+        function NoSpace(){
+            let szavak = $('#input').val().split("");
+            let hossz = szavak.length;
+            if($('#input').val()==""){
+                $('#error').html("Nem írt be semmit!")
+                $('#output').html("");
+            }
+            else{
+                $('#error').html("");
+               szavak.forEach(element => {
+                   if(element==" "){
+                       hossz-=1;
+                   }
+               });  
+                $('#output').html(hossz);    
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
